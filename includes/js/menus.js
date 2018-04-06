@@ -21,7 +21,7 @@ var focusedBtn = 0;
 		var subLevel = 0;
 		$.each( currentLevel, function( key, value ){
 			var focusedClass = (subLevel == 0 ? " focused" : ""); // focus le 1er bouton quand la page charge
-			$("#body").append("<a class='btn" + focusedClass + "' href='#' id='btn_" + subLevel + "' onclick='printChilds("+subLevel+");'>" + key + "</a>");
+			$("#body").append("<a class='btn" + focusedClass + "' href='#' id='btn_" + subLevel + "' mqttpath='root/" + key + "' onclick='printChilds("+subLevel+");'>" + key + "</a>");
 			subLevel++;
 		});
     }});
@@ -29,6 +29,8 @@ var focusedBtn = 0;
 
 /** fonction servant à afficher des boutons enfants et à remonter d'un niveau **/
 function printChilds(subLevelAsked) {
+	var mqttPath = $("#btn_"+subLevelAsked).attr("mqttpath");
+	console.log("mqttPath was "+ mqttPath);
 	var tmpLevel;
 	var found = 0;
 	// si le niveau demandé est -1 ca veut dire qu'on remonte d'un niveau en arriere
@@ -65,7 +67,7 @@ function printChilds(subLevelAsked) {
 		// donc on affiche un bouton pour remonter au parent
 		focusedBtn = -2;
 		if(levels.length > 1) {
-			$("#body").append("<a class='btn' href='#' id='btn_-1' onclick='printChilds(-1);'>..</a>");
+			$("#body").append("<a class='btn' href='#' id='btn_-1' mqttpath='" + mqttPath.substring(0, mqttPath.lastIndexOf("/")) + "' onclick='printChilds(-1);'>..</a>");
 		}
 		
 		currentLevel = tmpLevel;
@@ -77,11 +79,11 @@ function printChilds(subLevelAsked) {
 			var onclick="";
 			
 			if(!subkey.startsWith("_")) {
-				onclick = " onclick='printChilds("+subLevel+");'";
+				onclick = " mqttpath='" + mqttPath + "/" + subkey + "' onclick='printChilds("+subLevel+");'";
 			}
 			// les enfants avec un nom commencant par _ sont des actions qui déclencheront du MQTT
 			else {
-				onclick = " onclick='alert(69);'";
+				onclick = " mqttpath='" + mqttPath + "/downlink/action/" + subkey + "' onclick='alert(69);'";
 				subkey = subkey.substring(1);
 			}
 			
