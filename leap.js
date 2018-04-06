@@ -104,12 +104,6 @@ Cylon.robot({
   }
 });
 
-// Quand un client se connecte, on le note dans la console
-io.sockets.on('connection', function (socket) {
-    console.log('Client connected on webapp.');
-	socket.emit('message', 'clic'); // TODO SEND MESSAGE clic/back/prev/next
-});
-
 Cylon.start();
 
 

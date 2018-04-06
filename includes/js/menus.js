@@ -65,8 +65,7 @@ function printChilds(subLevelAsked) {
 		// donc on affiche un bouton pour remonter au parent
 		focusedBtn = -2;
 		if(levels.length > 1) {
-			focusedBtn = -1; // focus le 1er bouton quand on change le menu
-			$("#body").append("<a class='btn focused' href='#' id='btn_-1' onclick='printChilds(-1);'>..</a>");
+			$("#body").append("<a class='btn' href='#' id='btn_-1' onclick='printChilds(-1);'>..</a>");
 		}
 		
 		currentLevel = tmpLevel;
