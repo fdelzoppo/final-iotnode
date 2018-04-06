@@ -1,0 +1,27 @@
+{
+    "root": {
+        "location1": 
+		{
+			"room1": {
+				"object1": {
+					"_action1": "test"
+					
+				},
+				"object2": {
+				
+				}
+			},
+			"room2": {
+				"object1": {
+				
+				},
+				"object2": {
+				
+				}
+			}
+		},
+		"office": {
+            
+        }
+    }
+}
