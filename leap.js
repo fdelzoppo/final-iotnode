@@ -1,5 +1,6 @@
 var Cylon = require('cylon');
 
+var HOST = "127.0.0.1";
 var SRV_PORT = 8080;
 var HTML_PAGE = "index.html";
 
@@ -11,25 +12,20 @@ var url = require("url");
 var server = http.createServer(function (request, response) {
 
     var pathname = url.parse(request.url).pathname;
-	if(pathname != "/favicon.ico") {
-		console.log("Request for " + pathname + " received.");
-	}
-	
+    console.log("Request for " + pathname + " received.");
+
     response.writeHead(200);
 
     if(pathname == "/") {
         html = fs.readFileSync(HTML_PAGE, "utf8");
         response.write(html);
-    }
-	else {
+    } else {
         try {
 			script = fs.readFileSync("." + pathname, "utf8");
 			response.write(script);
 		}
 		catch(e) {
-			if(pathname != "/favicon.ico") {
-				console.log("err opening "+ pathname);
-			}
+			console.log("err opening "+ pathname);
 		}
     }
     response.end();
@@ -42,7 +38,7 @@ Cylon.robot({
   connections: {
     leapmotion: { 
 		adaptor: 'leapmotion'
-		 ,host: '192.168.141.33' 
+		 ,host: HOST 
 	}
 	
   },
@@ -59,7 +55,7 @@ Cylon.robot({
 
    
 		//On rentre si on fait plus de 0.5 cercle et que l'on stop (en vue)
-        if (gesture.type=='circle' && gesture.state=='stop' && gesture.progress > 0.8 ){
+        if (gesture.type=='circle' && gesture.state=='stop' && gesture.progress > 0.5 ){
 		//sens horaire => selection
             if (gesture.normal[2] < 0) {
                 console.log("b"+gesture.toString());
@@ -93,16 +89,36 @@ Cylon.robot({
 		  if(gesture.position[0] - gesture.startPosition[0] < 0)
 		  {
 		  console.log("gauche");
-		  io.local.emit('message', 'prev'); // TODO SEND MESSAGE clic/back/prev/next
+		  io.local.emit('message', 'prev'); 
 		  }
         }
             
+        
+		
     });
 	
 	my.leapmotion.on('frame', function(frame) {
+		
 			//console.log(frame.toString());
+		
     });
   }
 });
 
+// Quand un client se connecte, on le note dans la console
+io.sockets.on('connection', function (socket) {
+    console.log('Client connected on webapp.');
+	socket.emit('message', 'clic'); // TODO SEND MESSAGE clic/back/prev/next
+});
+
 Cylon.start();
+
+
+
+
+
+
+
+
+
+
