@@ -1,7 +1,9 @@
+//Variables de connexion au serveur web
 var SRV_PRTO = "http";
-var SRV_HOST = "localhost";
+var SRV_HOST = "192.168.140.48";
 var SRV_PORT = "8080";
 
+//Permet d'éviter de détecter trop de geste 
 var lastGesture = Date.now();
 var gesture_threshold = 800;
 

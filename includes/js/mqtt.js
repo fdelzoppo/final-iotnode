@@ -1,8 +1,9 @@
+//Variables de connexion au broker MQTT
 var BROKER_HOST = "192.168.141.31";
 var BROKER_PORT = 1884;
 
 // Create a client instance
-client = new Paho.MQTT.Client(BROKER_HOST, Number(BROKER_PORT), "clientId");
+client = new Paho.MQTT.Client(BROKER_HOST, Number(BROKER_PORT), Date.now().toString());
 addLogLine("MQTT init on " + BROKER_HOST + " at port " + BROKER_PORT);
 
 // set callback handlers

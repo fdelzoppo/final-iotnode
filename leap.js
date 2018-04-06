@@ -1,7 +1,10 @@
 var Cylon = require('cylon');
 
+//Adresse du serveur où se trouve le LeapMotion
 var HOST = "127.0.0.1";
+//Port du serveur web
 var SRV_PORT = 8080;
+//Page html à afficher à la racine
 var HTML_PAGE = "index.html";
 
 var http = require("http");
@@ -9,23 +12,28 @@ var fs = require("fs");
 var url = require("url");
 
 
+//Serveur web
 var server = http.createServer(function (request, response) {
 
     var pathname = url.parse(request.url).pathname;
-    console.log("Request for " + pathname + " received.");
-
+    if (pathname != "/favicon.ico") {
+		console.log("Request for " + pathname + " received.");
+	}
     response.writeHead(200);
-
+	//Get sur la racine renvoie la page html
     if(pathname == "/") {
         html = fs.readFileSync(HTML_PAGE, "utf8");
         response.write(html);
     } else {
         try {
+			//Get sur les autres fichiers (javascript)
 			script = fs.readFileSync("." + pathname, "utf8");
 			response.write(script);
 		}
 		catch(e) {
-			console.log("err opening "+ pathname);
+			if(pathname != "/favicon.ico") {
+				console.log("err opening "+ pathname);
+			}
 		}
     }
     response.end();
@@ -33,6 +41,7 @@ var server = http.createServer(function (request, response) {
 
 var io = require('socket.io').listen(server);
 
+//Utilisation de Cylon.JS pour l'utilisation du LeapMotion
 Cylon.robot({
   name: 'leap',
   connections: {
@@ -51,6 +60,8 @@ Cylon.robot({
 
 
   work: function(my) {
+  
+  //Détection des gestes
  my.leapmotion.on('gesture', function(gesture) {
 
    
@@ -97,19 +108,10 @@ Cylon.robot({
 		
     });
 	
-	my.leapmotion.on('frame', function(frame) {
-		
-			//console.log(frame.toString());
-		
-    });
+
   }
 });
 
-// Quand un client se connecte, on le note dans la console
-io.sockets.on('connection', function (socket) {
-    console.log('Client connected on webapp.');
-	socket.emit('message', 'clic'); // TODO SEND MESSAGE clic/back/prev/next
-});
 
 Cylon.start();
 
