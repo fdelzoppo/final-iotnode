@@ -3,5 +3,5 @@ function addLogLine(str) {
 	$("#logs").append("[" + today.getHours() + ":" + today.getMinutes() + "] " + str + "<br/>");
 	console.log(str);
 	$('#logs').animate({
-        scrollTop: $('#logs')[0].scrollHeight}, 1000);
+        scrollTop: $('#logs')[0].scrollHeight}, 20000);
 }

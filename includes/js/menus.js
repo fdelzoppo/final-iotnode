@@ -84,7 +84,7 @@ function printChilds(subLevelAsked) {
 			// les enfants avec un nom commencant par _ sont des actions qui déclencheront du MQTT
 			else {
 				subkey = subkey.substring(1);
-				onclick = " mqttpath='" + mqttPath + "/downlink/action/" + subkey + "' onclick='sendMqtt(this);'";
+				onclick = " mqttpath='" + mqttPath + "/downlink/action' onclick='sendMqtt(this, \"" + subkey + "\");'";
 			}
 			
 			// Mettre la classe de focus sur le 1er bouton si on a pas eu de bouton ".." (retour) avant

@@ -59,7 +59,7 @@ Cylon.robot({
 
    
 		//On rentre si on fait plus de 0.5 cercle et que l'on stop (en vue)
-        if (gesture.type=='circle' && gesture.state=='stop' && gesture.progress > 0.5 ){
+        if (gesture.type=='circle' && gesture.state=='stop' && gesture.progress > 0.8 ){
 		//sens horaire => selection
             if (gesture.normal[2] < 0) {
                 console.log("b"+gesture.toString());
