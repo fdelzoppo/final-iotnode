@@ -4,6 +4,7 @@ var SRV_PORT = "8080";
 
 var socket = io.connect(SRV_PRTO + '://' + SRV_HOST + ':' + SRV_PORT);	
 socket.on('message', function(cmd) {
+	addLogLine("leap motion gesture : "+cmd);
 	switch(cmd) {
 		case "prev" : {
 			prevBtn();

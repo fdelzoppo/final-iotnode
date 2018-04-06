@@ -83,8 +83,8 @@ function printChilds(subLevelAsked) {
 			}
 			// les enfants avec un nom commencant par _ sont des actions qui déclencheront du MQTT
 			else {
-				onclick = " mqttpath='" + mqttPath + "/downlink/action/" + subkey + "' onclick='alert(69);'";
 				subkey = subkey.substring(1);
+				onclick = " mqttpath='" + mqttPath + "/downlink/action/" + subkey + "' onclick='sendMqtt(this);'";
 			}
 			
 			// Mettre la classe de focus sur le 1er bouton si on a pas eu de bouton ".." (retour) avant
@@ -95,6 +95,11 @@ function printChilds(subLevelAsked) {
 			$("#body").append("<a class='btn" + focusedClass + "' id='btn_" + subLevel + "' href='#'" + onclick + ">" + subkey + "</a>");
 			subLevel++;
 		});
+		
+		if(focusedBtn == -2) {
+			focusedBtn = -1;
+			$("#btn_"+focusedBtn).addClass("focused");
+		}
 	}
 }
 

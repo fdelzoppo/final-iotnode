@@ -11,20 +11,25 @@ var url = require("url");
 var server = http.createServer(function (request, response) {
 
     var pathname = url.parse(request.url).pathname;
-    console.log("Request for " + pathname + " received.");
-
+	if(pathname != "/favicon.ico") {
+		console.log("Request for " + pathname + " received.");
+	}
+	
     response.writeHead(200);
 
     if(pathname == "/") {
         html = fs.readFileSync(HTML_PAGE, "utf8");
         response.write(html);
-    } else {
+    }
+	else {
         try {
 			script = fs.readFileSync("." + pathname, "utf8");
 			response.write(script);
 		}
 		catch(e) {
-			console.log("err opening "+ pathname);
+			if(pathname != "/favicon.ico") {
+				console.log("err opening "+ pathname);
+			}
 		}
     }
     response.end();
@@ -92,35 +97,12 @@ Cylon.robot({
 		  }
         }
             
-        
-		
     });
 	
 	my.leapmotion.on('frame', function(frame) {
-		
 			//console.log(frame.toString());
-		
     });
   }
 });
 
 Cylon.start();
-
-
-
-
-
-
-
-//////////////////
-
-
-
-
-
-
-
-
-
-
-
