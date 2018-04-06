@@ -1,7 +1,6 @@
 function addLogLine(str) {
 	var today = new Date();
-	$("#logs").append("[" + today.getHours() + ":" + today.getMinutes() + "] " + str + "<br/>");
+	$("#logs").append("[" + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + "] " + str + "<br/>");
 	console.log(str);
-	$('#logs').animate({
-        scrollTop: $('#logs')[0].scrollHeight}, 20000);
+	$('#logs').scrollTop(1E10);
 }
